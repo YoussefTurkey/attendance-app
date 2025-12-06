@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { useAuth } from "@/context/AuthContext";
 import Loading from "@/components/ui/Loading";
 import Link from "next/link";
-import { useRouter, useParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import {
   FaSearch,
   FaPlus,
@@ -36,7 +36,6 @@ type TUser = TProfile & {
 };
 
 const AdminDashboard = () => {
-  const { id } = useParams();
   const { auth, logout } = useAuth();
   const router = useRouter();
 

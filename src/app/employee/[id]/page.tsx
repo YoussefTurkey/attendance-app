@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
 import toast, { Toaster } from "react-hot-toast";
@@ -66,14 +66,17 @@ const EmployeePage = () => {
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
   // Save employee state to localStorage
-  const saveEmployeeState = (state: EmployeeState) => {
-    if (typeof window !== "undefined") {
-      localStorage.setItem(`employeeState_${id}`, JSON.stringify(state));
-    }
-  };
+  const saveEmployeeState = useCallback(
+    (state: EmployeeState) => {
+      if (typeof window !== "undefined") {
+        localStorage.setItem(`employeeState_${id}`, JSON.stringify(state));
+      }
+    },
+    [id]
+  );
 
   // Load employee state from localStorage
-  const loadEmployeeState = (): EmployeeState | null => {
+  const loadEmployeeState = useCallback((): EmployeeState | null => {
     if (typeof window !== "undefined") {
       const saved = localStorage.getItem(`employeeState_${id}`);
       if (saved) {
@@ -86,14 +89,14 @@ const EmployeePage = () => {
       }
     }
     return null;
-  };
+  }, [id]);
 
   // Clear employee state from localStorage
-  const clearEmployeeState = () => {
+  const clearEmployeeState = useCallback(() => {
     if (typeof window !== "undefined") {
       localStorage.removeItem(`employeeState_${id}`);
     }
-  };
+  }, [id]);
 
   // Update current time every second
   useEffect(() => {
@@ -110,7 +113,6 @@ const EmployeePage = () => {
       setIsCheckedIn(savedState.isCheckedIn);
       setIsBreak(savedState.isBreak);
 
-      // إذا كان فيه attendance محفوظ، أضفه للجدول
       if (savedState.currentAttendance) {
         setAttendance((prev) => {
           const exists = prev.some(
@@ -123,7 +125,7 @@ const EmployeePage = () => {
         });
       }
     }
-  }, [id, loadEmployeeState]);
+  }, [loadEmployeeState]);
 
   useEffect(() => {
     if (!auth?.token) {
@@ -255,7 +257,7 @@ const EmployeePage = () => {
     };
 
     fetchAttendance();
-  }, [id, auth?.token, apiUrl, authLoading, loadEmployeeState]);
+  }, [id, auth?.token, apiUrl, authLoading]);
 
   // Check In function
   const handleCheckIn = async () => {

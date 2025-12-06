@@ -19,8 +19,6 @@ import {
   FaHistory,
   FaChartBar,
   FaEye,
-  FaTimes,
-  FaTimesCircle,
   FaRegClock,
 } from "react-icons/fa";
 import toast, { Toaster } from "react-hot-toast";
@@ -454,7 +452,7 @@ const EmployeeAttendance = () => {
                           </div>
                           <div>
                             <div className="font-semibold text-gray-900">
-                              {record.date.split('T')[0]}
+                              {record.date.split("T")[0]}
                             </div>
                           </div>
                         </div>

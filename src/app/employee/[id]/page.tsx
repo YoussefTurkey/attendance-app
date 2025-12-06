@@ -123,7 +123,7 @@ const EmployeePage = () => {
         });
       }
     }
-  }, [id]);
+  }, [id, loadEmployeeState]);
 
   useEffect(() => {
     if (!auth?.token) {
@@ -255,7 +255,7 @@ const EmployeePage = () => {
     };
 
     fetchAttendance();
-  }, [id, auth?.token, apiUrl, authLoading]);
+  }, [id, auth?.token, apiUrl, authLoading, loadEmployeeState]);
 
   // Check In function
   const handleCheckIn = async () => {

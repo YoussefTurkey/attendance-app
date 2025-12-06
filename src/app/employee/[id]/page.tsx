@@ -226,7 +226,6 @@ const EmployeePage = () => {
           attendanceData = result.data.attendance;
         }
 
-        // دمج البيانات المحفوظة مع البيانات من السيرفر
         const savedState = loadEmployeeState();
         if (savedState?.currentAttendance) {
           const exists = attendanceData.some(
@@ -239,7 +238,6 @@ const EmployeePage = () => {
 
         setAttendance(attendanceData);
 
-        // تحديث حالة checkin/break بناءً على البيانات
         const ongoingAttendance = attendanceData.find(
           (att) => att.checkInAt && !att.checkOutAt
         );
@@ -257,7 +255,7 @@ const EmployeePage = () => {
     };
 
     fetchAttendance();
-  }, [id, auth?.token, apiUrl, authLoading]);
+  }, [id, auth?.token, apiUrl, authLoading, loadEmployeeState]);
 
   // Check In function
   const handleCheckIn = async () => {
